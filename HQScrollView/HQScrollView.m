@@ -7,6 +7,7 @@
 //
 
 #import "HQScrollView.h"
+#import "UIImageView+WebCache.h"
 
 @interface HQScrollView ()<UIScrollViewDelegate>
 {
