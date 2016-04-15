@@ -10,4 +10,5 @@ s.source       = {:git => 'https://github.com/SmallWeed/HQScrollView.git', :tag 
 s.source_files = 'HQScrollView/**/*.{h,m}'
 s.resource     = 'HQScrollView/**/*.{png,xib,storyboard}'
 s.requires_arc = true
+s.dependency 'SDWebImage'
 end
