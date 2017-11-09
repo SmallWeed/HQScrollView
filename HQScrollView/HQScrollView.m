@@ -7,7 +7,7 @@
 //
 
 #import "HQScrollView.h"
-#import "UIImageView+WebCache.h"
+//#import "UIImageView+WebCache.h"
 
 @interface HQScrollView ()<UIScrollViewDelegate>
 {
@@ -53,7 +53,7 @@
     }
     
     UIImageView *view = _imageViewArray[index];
-    [view sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:placeholder];
+//    [view sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:placeholder];
 }
 
 -(void)refreshUI
@@ -151,10 +151,17 @@
 #pragma mark - 自动滚动
 - (void) updateScrollView
 {
-    [_myTimer invalidate];
-    _myTimer = nil;
+    if (_myTimer)
+    {
+        [_myTimer invalidate];
+        _myTimer = nil;
+    }
+    
     NSTimeInterval timeInterval = 3.5;
-    _myTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:self selector:@selector(handleMaxShowTimer:) userInfo:nil repeats:YES];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    _myTimer = [NSTimer scheduledTimerWithTimeInterval:timeInterval target:weakSelf selector:@selector(handleMaxShowTimer:) userInfo:nil repeats:YES];
 }
 
 #pragma mark - pageControl 颜色
@@ -178,7 +185,6 @@
         return;
     }
     
-    
     int currentPage = floor((_scrollView.contentOffset.x - _scrollView.frame.size.width / (_pageCount)) / _scrollView.frame.size.width) + 1;
     
     if(currentPage == (_pageCount-1)){
@@ -191,6 +197,20 @@
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
     [self updatePageControl];
+}
+
+-(void)dealloc
+{
+    NSLog(@"HQScorllView销毁了");
+}
+
+- (void)viewWillDisappear
+{
+    if (_myTimer)
+    {
+        [_myTimer invalidate];
+        _myTimer = nil;
+    }
 }
 
 @end

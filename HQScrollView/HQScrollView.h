@@ -65,4 +65,7 @@ HQScrollView.autoScroll = YES;
 
 //每张添加点击处理 - block
 @property (nonatomic,copy) void (^setClickAction)();
+
+//ViewController viewWillDisappear 时候调用，销毁NSTimer
+- (void)viewWillDisappear;
 @end
